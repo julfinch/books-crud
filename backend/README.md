@@ -105,7 +105,52 @@
         ```
         SOLUTION 2: Uninstall **mysql** and install **mysql2** instead to avoid the auth error.
 
-1. ****
+1. **Go to PostMan to use the POST method and then GET method to see that it is successfully posting with no error if done on backend side**
+1. **Do the POST method but this time using the client side**
+
+    1. **In PostMan, change the method to POST then choose the following to "Body" -- "Raw" -- "JSON".**
+        ```shell
+            {
+                "title": "title from client",
+                "desc": "desc from client",
+                "cover": "cover from client",
+            }
+        ```
+    1. **Inside index.js, change the post method to:**
+        ```shell
+            app.post("/books", (req,res) => {
+                const q = "INSERT INTO books (`title`, `desc`, `cover`) VALUES (?)"
+                const values = [
+                    req.body.title,
+                    req.body.desc,
+                    req.body.cover,
+                ]
+
+                db.query(q, [values], (err, data) => {
+                    if(err) return res.json(err)
+                    return res.json("Book has been created successfully!")
+                })
+            })
+        ```
+    1. **If SEND is clicked, it should give a 500 Internal Server Error:**
+        ```shell
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <title>Error</title>
+            </head>
+            <body>
+                <pre>TypeError: Cannot read properties of undefined reading .... </pre>
+            </body>
+            </html>
+        ```
+    1. **To solve this, we have to create an Express Server Middleware inside index.js**
+        ```shell
+            app.use(express.json())
+        ```
+    1. **After this, we should be able to POST already with no error.**
+
 
 
 ---

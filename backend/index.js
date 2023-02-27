@@ -16,6 +16,9 @@ const db = mysql.createConnection({
 // install mysql2 instead. Make sure to change the import code above to 'mysql2' instead of 'mysql'.
 // ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'BuchokoyMysql.1990';
 
+// Express Server Middleware to let us do POST method to the database using the client side 
+app.use(express.json())
+
 // This is to connect to the backend. Whenever we are at the homepage, 
 // client side will send a request to the backend and then backend will send 
 // a response. For this, we will send a response message for now.
@@ -37,7 +40,11 @@ app.get("/books", (req, res) => {
 //POST method to submit books to the database. We use question mark in the VALUES for security purposes/
 app.post("/books", (req,res) => {
     const q = "INSERT INTO books (`title`, `desc`, `cover`) VALUES (?)"
-    const values = ["title from backend","desc from backend","cover from backend"]
+    const values = [
+        req.body.title,
+        req.body.desc,
+        req.body.cover,
+    ]
 
     db.query(q, [values], (err, data) => {
         if(err) return res.json(err)
