@@ -151,7 +151,20 @@
         ```
     1. **After this, we should be able to POST already with no error.**
 
+1. **Set-up the FRONTEND from here by installing CRA**
+1. **We should be getting an error from here about CORS policy by looking at the Console after calling the API endpoint /books inside Books.jsx.**
+1. **Go back to the backend folder and install cors and then run it again**
+    ```shell
+        npm i cors
+        npm start
+    ```
+1. **Write the middleware for CORS inside index.js of the backend**
+    ```shell
+        import cors from 'cors'
 
+        app.use(cors())
+    ```
+1. **You should be getting the data now from the database**
 
 ---
  

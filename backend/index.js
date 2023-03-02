@@ -1,5 +1,6 @@
 import express from 'express'
 import mysql from 'mysql2'
+import cors from 'cors'
 
 const app = express()
 
@@ -18,6 +19,7 @@ const db = mysql.createConnection({
 
 // Express Server Middleware to let us do POST method to the database using the client side 
 app.use(express.json())
+app.use(cors())
 
 // This is to connect to the backend. Whenever we are at the homepage, 
 // client side will send a request to the backend and then backend will send 
@@ -39,10 +41,11 @@ app.get("/books", (req, res) => {
 
 //POST method to submit books to the database. We use question mark in the VALUES for security purposes/
 app.post("/books", (req,res) => {
-    const q = "INSERT INTO books (`title`, `desc`, `cover`) VALUES (?)"
+    const q = "INSERT INTO books (`title`, `desc`, `price`, `cover`) VALUES (?)"
     const values = [
         req.body.title,
         req.body.desc,
+        req.body.price,
         req.body.cover,
     ]
 
@@ -51,6 +54,9 @@ app.post("/books", (req,res) => {
         return res.json("Book has been created successfully!")
     })
 })
+
+//DELETE method
+app.delete("/books/:id")
 
 
 

@@ -1,70 +1,93 @@
-# Getting Started with Create React App
+# books-crud front-end
+  
+## Table of contents
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- [My Process](#process)
+- [Author](#author)
 
-## Available Scripts
 
-In the project directory, you can run:
+## My Process
+1.  **Install CRA to client folder. Use "." so it will install inside it**
 
-### `npm start`
+    ```shell
+    npx create-react-app .
+    ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1.  **Install react-router-dom and axios**
+    ```shell
+        npm i react-router-dom axios
+    ```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1.  **Create a folder under src named pages and under it, create the pages: Add.jsx, Books.jsx, Updated.jsx**
+1.  **Under App.js, set up the Routes**
+    ```shell
+        import { BrowserRouter, Routes, Route } from "react-router-dom"
+        import Add from "./pages/Add";
+        import Books from "./pages/Books";
+        import Update from "./pages/Update";
 
-### `npm test`
+        function App() {
+        return (
+            <div className="App">
+            <BrowserRouter>
+                <Routes>
+                <Route path="/" element={<Books/>}/>
+                <Route path="/add" element={<Add/>}/>
+                <Route path="/update" element={<Update/>}/>
+                </Routes>
+            </BrowserRouter>
+            </div>
+        );
+        }
+        export default App;
+    ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. **Open Books.jsx and fetch the data fom database using axios**
+    ```shell
+        import React,{ useState, useEffect } from 'react'
+        import axios from 'axios';
 
-### `npm run build`
+        const Books = () => {
+            const [books, setBooks] = useState([])
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+            useEffect(() => {
+            const fetchAllBooks = async () => {
+                try{
+                    const res = await axios.get("http://localhost:8800/books")
+                    console.log(res)
+                }catch(err){
+                    console.log(err)
+                }
+            }
+            fetchAllBooks();
+            }, [])
+            
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+        return (
+            <div>Books</div>
+        )
+        }
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+        export default Books
+    ```
 
-### `npm run eject`
+1. **We should be getting an error from here about CORS policy by looking at the Console.**
+1. **Go back to the backend folder and install cors and then run it again**
+    ```shell
+        npm i cors
+        npm start
+    ```
+1. **Write the middleware for CORS inside index.js of the backend**
+    ```shell
+        import cors from 'cors'
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+        app.use(cors())
+    ```
+1. **You should be getting the data now from the database**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+ 
+## Author
+- Twitter - [@julfinch](https://www.twitter.com/julfinch)
